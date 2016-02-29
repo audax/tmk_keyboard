@@ -30,7 +30,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   {KC_TAB,       NEO_X,   NEO_V,            NEO_L,    NEO_C,   NEO_W,      NEO_K,          NEO_H,   NEO_G,   NEO_F,   NEO_Q,   KC_BSPC},
   {NEO_L1_L,     NEO_U,   NEO_I,            NEO_A,    NEO_E,   NEO_O,      NEO_S,          NEO_N,   NEO_R,   NEO_T,   NEO_D,   F(1)},
   {KC_LSFT,      NEO_UE,  NEO_OE,           NEO_AE,   NEO_P,   NEO_Z,      NEO_B,          NEO_M,   KC_COMM, KC_DOT,  NEO_J,   SFT_T(KC_ESC)},
-  {KC_LCTL,      KC_LALT, KC_LSFT|KC_LGUI,  MO(_RS),  KC_LCTL, KC_SPC,     LT(_LW, KC_ENT),KC_LCTL, F(0),    KC_PGUP, KC_PGDN, S(KC_INS)}
+  {KC_LGUI,      KC_LALT, KC_LSFT|KC_LGUI,  MO(_RS),  KC_LCTL, KC_SPC,     LT(_LW, KC_ENT),KC_LCTL, F(0),    KC_PGUP, KC_PGDN, S(KC_INS)}
 },
 [_RS] = { /* RAISE */
   {KC_GRV,       KC_1,    KC_2,    KC_3,    KC_4,     KC_5,     KC_6,      KC_7,           KC_8,    KC_9,    KC_0,    NEO_SS},
