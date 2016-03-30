@@ -9,7 +9,9 @@
 
 // Layer names
 #define BASE 0 // default layer
-#define MDIA 1 // media keys
+#define _GA 1
+#define _UP 2
+#define MDIA 3 // media keys
 
 #define NEO_L1_SS 1
 #define NEO_L2_ENT 2
@@ -25,7 +27,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * |   ^    |   1  |   2  |   3  |   4  |   5  | Play |           | Next |   6  |   7  |   8  |   9  |   0  |BackSpce|
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * |  Del   |   X  |   V  |   L  |   C  |   W  |  L1  |           |  L1  |   K  |   H  |   G  |   F  |   Q  |   Y    |
+ * |  Tab   |   X  |   V  |   L  |   C  |   W  |  L1  |           |  L1  |   K  |   H  |   G  |   F  |   Q  |   Y    |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |  Caps  |   U  |   I  |   A  |   E  |   O  |------|           |------|   S  |   N  |   R  |   T  |   D  |Y/NeoL1 |
  * |--------+------+------+------+------+------| Esc  |           | Meh  |------+------+------+------+------+--------|
@@ -47,23 +49,61 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [BASE] = KEYMAP(  // layer 0 : default
         // left hand
         KC_CIRC,         KC_1,          KC_2,          KC_3,          KC_4,    KC_5,    KC_MPLY,
-        KC_DELT,         NEO_X,         NEO_V,         NEO_L,         NEO_C,   NEO_W,   TG(1),
-        KC_CAPS,         GUI_T(NEO_U),  MT(MOD_LGUI|MOD_LSFT, NEO_I),         NEO_A,         NEO_E,   NEO_O,
-        KC_LSFT,         CTL_T(NEO_UE), C_S_T(NEO_OE), ALT_T(NEO_AE), NEO_P,   NEO_Z,   KC_LGUI|KC_LSFT,
-        KC_LGUI,    KC_HOME,       KC_PGDN,        KC_PGUP,        KC_END,
-                                                ALT_T(KC_APP),KC_LGUI,
+        KC_TAB,         NEO_X,         NEO_V,         NEO_L,         NEO_C,   NEO_W,   TG(MDIA),
+        KC_CAPS,         NEO_U,        NEO_I,         NEO_A,         NEO_E,   NEO_O,
+        KC_LSFT,         CTL_T(NEO_UE), ALT_T(NEO_OE), GUI_T(NEO_AE), NEO_P,   NEO_Z,   KC_LGUI|KC_LSFT,
+        KC_LGUI,    KC_LCTL,       KC_PGDN,        KC_PGUP,        KC_ESC ,
+						LALT(KC_TAB),LCTL(NEO_X),
                                                               NEO_L2_L,
                                                KC_SPC,KC_BSPC,NEO_L1_L,
         // right hand
         KC_MNXT,     KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,
-        TG(1),       NEO_K,   NEO_H,   NEO_G,   NEO_F,   NEO_Q,   F(NEO_L1_SS),
-	    NEO_S,   NEO_N,   NEO_R,   NEO_T,   NEO_D,   NEO_Y,
+        TG(_GA),       NEO_K,   NEO_H,   NEO_G,   NEO_F,   NEO_Q,   NEO_Y,
+	    NEO_S,   NEO_N,   NEO_R,   NEO_T,   NEO_D,   F(NEO_L1_SS),
         MEH_T(KC_NO),NEO_B,   NEO_M,   KC_COMM, KC_DOT,  MT(MOD_LGUI|MOD_LSFT, NEO_J),   SFT_T(KC_ESC),
                               KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_ESC,
-        KC_LALT,CTL_T(KC_ESC),
-        NEO_L2_R,
-        NEO_L1_R,KC_TAB, F(NEO_L2_ENT)
+        LGUI(NEO_N),LGUI(NEO_R),
+        LGUI(NEO_R),
+        LGUI(NEO_T),KC_TAB, F(3)
     ),
+[_GA] = KEYMAP(
+       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_F11,
+       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_F12,
+       KC_TRNS, NEO_U, NEO_I, KC_TRNS, KC_TRNS,KC_TRNS,
+       KC_TRNS, NEO_UE, NEO_OE, NEO_AE, KC_TRNS, KC_TRNS, KC_F5,
+       KC_F6, KC_F7, KC_F8, KC_F9, KC_F10,
+                                           KC_F1, KC_F2,
+                                                    KC_F3,
+                                  KC_TRNS, KC_TRNS, KC_F4,
+    // right hand
+       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+                KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+                         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+       KC_TRNS, KC_TRNS,
+       KC_TRNS,
+       KC_TRNS, KC_TRNS, KC_TRNS
+),
+[_UP] = KEYMAP(
+       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+       KC_TRNS, LCTL(NEO_X), KC_PGDN, KC_UP,   KC_PGUP, KC_TRNS, KC_TRNS,
+       KC_TRNS, KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT,KC_END,
+       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+                                           KC_TRNS, KC_TRNS,
+                                                    KC_TRNS,
+                                  KC_TRNS, KC_DEL, KC_TRNS,
+    // right hand
+       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+       KC_TRNS, KC_0, KC_1, KC_2, KC_3, KC_TRNS, KC_TRNS,
+                KC_TRNS, KC_4, KC_5, KC_6, KC_TRNS, KC_TRNS,
+       KC_TRNS, KC_TRNS, KC_7, KC_8, KC_9, KC_TRNS, KC_TRNS,
+                         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+       KC_TRNS, KC_TRNS,
+       KC_TRNS,
+       KC_TRNS, KC_TRNS, KC_TRNS
+),
 /* Keymap 1: Media and mouse keys
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
@@ -110,7 +150,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 const uint16_t PROGMEM fn_actions[] = {
     /* [1] = ACTION_LAYER_TAP_TOGGLE(SYMB)                // FN1 - Momentary Layer 1 (Symbols) */
   [1] = ACTION_FUNCTION_TAP(NEO_L1_SS),
-  [2] = ACTION_FUNCTION_TAP(NEO_L2_ENT)
+  [2] = ACTION_FUNCTION_TAP(NEO_L2_ENT),
+  [3] = ACTION_LAYER_TAP_KEY(_UP, KC_ENT)
 };
 void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
@@ -173,12 +214,15 @@ void * matrix_scan_user(void) {
     ergodox_right_led_2_off();
     ergodox_right_led_3_off();
     switch (layer) {
-        case MDIA:
-            ergodox_right_led_2_on();
-            break;
-        default:
-            ergodox_board_led_off();
-            break;
+    case _GA:
+      ergodox_right_led_3_on();
+      break;
+    case MDIA:
+	ergodox_right_led_2_on();
+	break;
+    default:
+	ergodox_board_led_off();
+	break;
     }
 
 };
