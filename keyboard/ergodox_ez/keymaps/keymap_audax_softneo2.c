@@ -27,7 +27,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * |   ^    |   1  |   2  |   3  |   4  |   5  | Play |           | Next |   6  |   7  |   8  |   9  |   0  |BackSpce|
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * |  Tab   |   X  |   V  |   L  |   C  |   W  |  L1  |           |  L1  |   K  |   H  |   G  |   F  |   Q  |   Y    |
+ * |  Tab   |   X  |   V  |   L  |   C  |   W  |  L1  |           |  L2  |   K  |   H  |   G  |   F  |   Q  |   Y    |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |  Caps  |   U  |   I  |   A  |   E  |   O  |------|           |------|   S  |   N  |   R  |   T  |   D  |Y/NeoL1 |
  * |--------+------+------+------+------+------| Esc  |           | Meh  |------+------+------+------+------+--------|
@@ -39,9 +39,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                        ,-------------.       ,-------------.
  *                                        | App  | LGui |       | Alt  |Ctrl/Esc|
  *                                 ,------+------+------|       |------+--------+------.
- *                                 |      |      |NeoL2 |       |NeoL2 |        |      |
+ *                                 |      |      |S_Ins |       |NeoL2 |        |      |
  *                                 | Space|Backsp|------|       |------|  Tab   |Enter |
- *                                 |      |ace   |NeoL1 |       |NeoL1 |        |/NeoL2|
+ *                                 |      |ace   |Ins   |       |NeoL1 |        |/NeoL2|
  *                                 `--------------------'       `----------------------'
  */
 // If it accepts an argument (i.e, is a function), it doesn't need KC_.
@@ -52,10 +52,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,         NEO_X,         NEO_V,         NEO_L,         NEO_C,   NEO_W,   TG(MDIA),
         KC_CAPS,         NEO_U,        NEO_I,         NEO_A,         NEO_E,   NEO_O,
         KC_LSFT,         CTL_T(NEO_UE), ALT_T(NEO_OE), GUI_T(NEO_AE), NEO_P,   NEO_Z,   KC_LGUI|KC_LSFT,
-        KC_LGUI,    KC_LCTL,       KC_PGDN,        KC_PGUP,        KC_ESC ,
+        KC_LGUI,    KC_HOME,       KC_PGDN,        KC_PGUP,        KC_END ,
 						LALT(KC_TAB),LCTL(NEO_X),
-                                                              NEO_L2_L,
-                                               KC_SPC,KC_BSPC,NEO_L1_L,
+							    LSFT(KC_INS),
+						    KC_SPC,KC_BSPC,KC_INS,
         // right hand
         KC_MNXT,     KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,
         TG(_GA),       NEO_K,   NEO_H,   NEO_G,   NEO_F,   NEO_Q,   NEO_Y,
@@ -64,7 +64,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                               KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_ESC,
         LGUI(NEO_N),LGUI(NEO_R),
         LGUI(NEO_R),
-        LGUI(NEO_T),KC_TAB, F(3)
+        LGUI(NEO_T),LT(_GA, KC_TAB), F(3)
     ),
 [_GA] = KEYMAP(
        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_F11,
@@ -87,7 +87,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 [_UP] = KEYMAP(
        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-       KC_TRNS, LCTL(NEO_X), KC_PGDN, KC_UP,   KC_PGUP, KC_TRNS, KC_TRNS,
+       KC_TRNS, KC_DEL, KC_PGDN, KC_UP,   KC_PGUP, KC_BSPC, KC_TRNS,
        KC_TRNS, KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT,KC_END,
        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
