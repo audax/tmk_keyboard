@@ -34,7 +34,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 },
 [_RS] = { /* RAISE */
   {KC_GRV,       KC_1,    KC_2,    KC_3,    KC_4,     KC_5,     KC_6,      KC_7,           KC_8,    KC_9,    KC_0,    NEO_SS},
-  {KC_TRNS,      KC_F1,   KC_F2,   KC_F3,   KC_F4,    KC_F5,    KC_F6,     KC_MINS,        KC_EQL,  KC_LBRC, KC_RBRC, KC_BSLS},
+  {KC_TRNS,      KC_F1,   KC_F2,   KC_F3,   KC_F4,    KC_F5,    KC_F6,     KC_MINS,        KC_EQL,  KC_LBRC, KC_RBRC, M(1)},
   {KC_TRNS,      KC_F7,   KC_F8,   KC_F9,   KC_F10,   KC_F11,   KC_F12,    DF(_NE),        KC_TRNS, DF(_RS), RESET,   KC_TRNS},
   {KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,        KC_TRNS, KC_VOLD, KC_VOLU, KC_MPLY}
 },
@@ -64,6 +64,15 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
             unregister_code(KC_RSFT);
           }
         break;
+        case 1:
+          if (record->event.pressed) {
+            register_code(NEO_L1_L);
+	    return MACRO(DOWN(NEO_Y), END);
+          } else {
+            unregister_code(NEO_L1_L);
+	    return MACRO(UP(NEO_Y), END);
+          }
+        break;
 	return MACRO_NONE;
       }
 };
@@ -78,13 +87,13 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
     } else {
 	unregister_code(NEO_L1_R);
 	if (record->tap.count != 0) {
-	    register_code(NEO_Y);
 	    add_key(NEO_Y);
 	    send_keyboard_report();
 	    del_key(NEO_Y);
+	    unregister_code(NEO_Y);
 	    send_keyboard_report();
 	}
     }
-  break;
+    break;
   }
 }
