@@ -22,37 +22,13 @@
 #endif
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-/* Keymap 0: Basic layer
- *
- * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |   ^    |   1  |   2  |   3  |   4  |   5  | Play |           | Next |   6  |   7  |   8  |   9  |   0  |BackSpce|
- * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * |  Tab   |   X  |   V  |   L  |   C  |   W  |  L1  |           |  L2  |   K  |   H  |   G  |   F  |   Q  |   Y    |
- * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |  Caps  |   U  |   I  |   A  |   E  |   O  |------|           |------|   S  |   N  |   R  |   T  |   D  |Y/NeoL1 |
- * |--------+------+------+------+------+------| Esc  |           | Meh  |------+------+------+------+------+--------|
- * | LShift |Ü/Ctrl| Ö/C-S| Ä/Alt|   P  |   Z  |      |           |      |   B  |   M  |   ,  |   .  |   J  | RShift |
- * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |Hyper | Home | PgDn | PgUp | End  |                                       | Right| Down |  Up  | Left |  Esc  |
- *   `----------------------------------'                                       `----------------------------------'
- 
- *                                        ,-------------.       ,-------------.
- *                                        | App  | LGui |       | Alt  |Ctrl/Esc|
- *                                 ,------+------+------|       |------+--------+------.
- *                                 |      |      |S_Ins |       |NeoL2 |        |      |
- *                                 | Space|Backsp|------|       |------|  Tab   |Enter |
- *                                 |      |ace   |Ins   |       |NeoL1 |        |/NeoL2|
- *                                 `--------------------'       `----------------------'
- */
-// If it accepts an argument (i.e, is a function), it doesn't need KC_.
-// Otherwise, it needs KC_*
 [BASE] = KEYMAP(  // layer 0 : default
         // left hand
         KC_CIRC,         KC_1,          KC_2,          KC_3,          KC_4,    KC_5,    KC_MPLY,
         KC_TAB,         NEO_X,         NEO_V,         NEO_L,         NEO_C,   NEO_W,   TG(MDIA),
         KC_CAPS,         NEO_U,        NEO_I,         NEO_A,         NEO_E,   NEO_O,
-        KC_LSFT,         CTL_T(NEO_UE), ALT_T(NEO_OE), GUI_T(NEO_AE), NEO_P,   NEO_Z,   KC_LGUI|KC_LSFT,
-        KC_LGUI,    KC_HOME,       KC_PGDN,        KC_PGUP,        KC_END ,
+        KC_LSFT,         CTL_T(NEO_UE), ALT_T(NEO_OE), GUI_T(NEO_AE), NEO_P,   NEO_Z,   KC_LGUI,
+        KC_HOME,       KC_PGDN,        KC_PGUP,        KC_END, KC_LGUI,
 						LALT(KC_TAB),LCTL(NEO_X),
 							    LSFT(KC_INS),
 						    KC_SPC,KC_BSPC,KC_INS,
@@ -61,8 +37,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         TG(_GA),       NEO_K,   NEO_H,   NEO_G,   NEO_F,   NEO_Q,   NEO_Y,
 	    NEO_S,   NEO_N,   NEO_R,   NEO_T,   NEO_D,   F(NEO_L1_SS),
         MEH_T(KC_NO),NEO_B,   NEO_M,   KC_COMM, KC_DOT,  MT(MOD_LGUI|MOD_LSFT, NEO_J),   SFT_T(KC_ESC),
-                              KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_ESC,
-        LGUI(NEO_N),LGUI(NEO_R),
+				    MT(MOD_LGUI|MOD_LSFT, KC_LEFT), KC_DOWN, KC_UP,   KC_RGHT, KC_ESC,
+        LGUI(NEO_N),LGUI(NEO_D),
         LGUI(NEO_R),
         LGUI(NEO_T),LT(_GA, KC_TAB), F(3)
     ),
@@ -104,27 +80,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        KC_TRNS,
        KC_TRNS, KC_TRNS, KC_TRNS
 ),
-/* Keymap 1: Media and mouse keys
- *
- * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |        |  F1  |  F2  |  F3  |  F4  |  F5  |      |           |      |  F6  |  F7  |  F8  |  F9  |  F10 |   F11  |
- * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * |        |      | Lclk | MsUp | Rclk |      |      |           |      |      |VolDwn| Mute |VolUp |      |   F12  |
- * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        | Btn4 |MsLeft|MsDown|MsRght| Btn5 |------|           |------|      | Prev | Stop | Play | Next |        |
- * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |WhRght|WhDown| WhUp |WhLeft|WhClk |      |           |      |BwSrch|BwBack|BwHome|BwRefr|BwFwd |        |
- * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |      |      |MsAcl0|MsAcl1|MsAcl2|                                       |      |      |      |      |      |
- *   `----------------------------------'                                       `----------------------------------'
- *                                        ,-------------.       ,-------------.
- *                                        |      |      |       |      |      |
- *                                 ,------|------|------|       |------+------+------.
- *                                 |      |      |      |       |      |Brwser|Brwser|
- *                                 | Lclk | Rclk |------|       |------|Back  |Forwd |
- *                                 |      |      |      |       |      |      |      |
- *                                 `--------------------'       `--------------------'
- */
 // MEDIA AND MOUSE
 [MDIA] = KEYMAP(
        KC_TRNS, KC_F1  , KC_F2  , KC_F3  , KC_F4  , KC_F5  , KC_TRNS,
