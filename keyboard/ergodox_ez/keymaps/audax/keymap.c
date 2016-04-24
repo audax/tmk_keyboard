@@ -25,11 +25,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [BASE] = KEYMAP(  // layer 0 : default
         // left hand
         KC_CIRC,         KC_1,          KC_2,          KC_3,          KC_4,    KC_5,    KC_MPLY,
-        KC_TAB,         NEO_X,         NEO_V,         NEO_L,         NEO_C,   NEO_W,   TG(MDIA),
+        KC_DEL,          NEO_X,         NEO_V,         NEO_L,         NEO_C,   NEO_W,   TG(MDIA),
         KC_CAPS,         NEO_U,        NEO_I,         NEO_A,         NEO_E,   NEO_O,
         KC_LSFT,         CTL_T(NEO_UE), ALT_T(NEO_OE), GUI_T(NEO_AE), NEO_P,   NEO_Z,   KC_LGUI,
-        KC_HOME,       KC_PGDN,        KC_PGUP,        KC_END, KC_LGUI,
-						LALT(KC_TAB),LCTL(NEO_X),
+        MT(_GA, KC_HOME), KC_PGDN,        KC_PGUP,        KC_END, KC_LGUI,
+						LALT(KC_TAB),KC_LALT,
 							    LSFT(KC_INS),
 						    KC_SPC,KC_BSPC,KC_INS,
         // right hand
@@ -37,10 +37,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         TG(_GA),       NEO_K,   NEO_H,   NEO_G,   NEO_F,   NEO_Q,   NEO_Y,
 	    NEO_S,   NEO_N,   NEO_R,   NEO_T,   NEO_D,   F(NEO_L1_SS),
         MEH_T(KC_NO),NEO_B,   NEO_M,   KC_COMM, KC_DOT,  MT(MOD_LGUI|MOD_LSFT, NEO_J),   SFT_T(KC_ESC),
-				    MT(MOD_LGUI|MOD_LSFT, KC_LEFT), KC_DOWN, KC_UP,   KC_RGHT, KC_ESC,
+				    CTL_T(KC_LEFT), KC_DOWN, KC_UP,   KC_RGHT, KC_LALT,
         LGUI(NEO_N),LGUI(NEO_D),
         LGUI(NEO_R),
-        LGUI(NEO_T),LT(_GA, KC_TAB), F(3)
+        LGUI(NEO_T),KC_TAB, F(3)
     ),
 [_GA] = KEYMAP(
        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_F11,
@@ -155,12 +155,12 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 };
 
 // Runs just one time when the keyboard initializes.
-void * matrix_init_user(void) {
+void matrix_init_user(void) {
 
 };
 
 // Runs constantly in the background, in a loop.
-void * matrix_scan_user(void) {
+void  matrix_scan_user(void) {
 
     uint8_t layer = biton32(layer_state);
 
