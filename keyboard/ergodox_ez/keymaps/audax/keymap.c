@@ -38,9 +38,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	    NEO_S,   NEO_N,   NEO_R,   NEO_T,   NEO_D,   F(NEO_L1_SS),
         MEH_T(KC_NO),NEO_B,   NEO_M,   KC_COMM, KC_DOT,  MT(MOD_LGUI|MOD_LCTL, NEO_J),   SFT_T(KC_ESC),
 				    CTL_T(KC_LEFT), KC_DOWN, KC_UP,   KC_RGHT, KC_LALT,
-        LGUI(NEO_N),LGUI(NEO_D),
-        LGUI(NEO_R),
-        LGUI(NEO_T),KC_TAB, F(3)
+        LALT(KC_LEFT),LALT(KC_RGHT),
+        LCTL(KC_TAB),
+        LCTL(LALT(KC_TAB)),KC_TAB, F(3)
     ),
 [_GA] = KEYMAP(
        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_F11,
