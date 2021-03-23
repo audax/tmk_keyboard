@@ -1,10 +1,7 @@
 #include QMK_KEYBOARD_H
 #include "debug.h"
 #include "led.h"
-#include "action_layer.h"
 #include "debug.h"
-#include "action_util.h"
-#include "action.h"
 #include "timer.h"
 #include "keymap_extras/keymap_neo2.h"
 #include "keymap_extras/keymap_german.h"
@@ -15,13 +12,15 @@
 #define _UP 2
 #define MDIA 3 // media keys
 
-#define NEO_L1_SS 1
-#define NEO_L2_ENT 2
-
 // Max duration that counts as a tap (ms)
 #ifndef TAPPING_TERM
 #define TAPPING_TERM 200
 #endif
+
+enum custom_keycodes {
+	NEO_L2_ENT = SAFE_RANGE,
+	NEO_L1_SS,
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [BASE] = LAYOUT_ergodox(  // layer 0 : default
@@ -37,12 +36,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // right hand
         KC_MNXT,     KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,
         TG(_GA),       NEO_K,   NEO_H,   NEO_G,   NEO_F,   NEO_Q,   NEO_Y,
-	    NEO_S,   NEO_N,   NEO_R,   NEO_T,   NEO_D,   F(NEO_L1_SS),
+	    NEO_S,   NEO_N,   NEO_R,   NEO_T,   NEO_D,   NEO_L1_SS,
         MEH_T(KC_NO),NEO_B,   NEO_M,   KC_COMM, KC_DOT,  MT(MOD_LGUI|MOD_LCTL, NEO_J),   SFT_T(KC_ESC),
 				    CTL_T(KC_LEFT), KC_DOWN, KC_UP,   KC_RGHT, KC_LALT,
         LALT(KC_LEFT),LALT(KC_RGHT),
         LCTL(KC_TAB),
-        LCTL(LALT(KC_TAB)),KC_TAB, F(3)
+        LCTL(LALT(KC_TAB)),KC_TAB, NEO_L2_ENT
     ),
 [_GA] = LAYOUT_ergodox(
        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_F11,
@@ -104,55 +103,98 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 };
 
-const uint16_t PROGMEM fn_actions[] = {
-    /* [1] = ACTION_LAYER_TAP_TOGGLE(SYMB)                // FN1 - Momentary Layer 1 (Symbols) */
-  [1] = ACTION_FUNCTION_TAP(NEO_L1_SS),
-  [2] = ACTION_FUNCTION_TAP(NEO_L2_ENT),
-  [3] = ACTION_LAYER_TAP_KEY(_UP, KC_ENT)
-};
-void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
-{
-  switch (id) {
-    case NEO_L1_SS:
-    if (record->event.pressed) {
-	register_code(NEO_L1_R);
-    } else {
-	unregister_code(NEO_L1_R);
-	if (record->tap.count != 0) {
-	    add_key(NEO_SS);
-	    send_keyboard_report();
-	    del_key(NEO_SS);
-	    send_keyboard_report();
-	}
-    }
-  break;
+bool is_ent_pressed = false;
+bool tapped_while_ent = false;
+
+bool is_ss_pressed = false;
+bool tapped_while_ss = false;
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
     case NEO_L2_ENT:
-    if (record->event.pressed) {
-	register_code(NEO_L2_R);
-    } else {
-	unregister_code(NEO_L2_R);
-	if (record->tap.count != 0) {
-	    add_key(KC_ENT);
-	    send_keyboard_report();
-	    del_key(KC_ENT);
-	    send_keyboard_report();
+     if (record->event.pressed) {
+ 	register_code(NEO_L2_R);
+	is_ent_pressed = true;
+     } else {
+ 	unregister_code(NEO_L2_R);
+	is_ent_pressed = false;
+	if (!tapped_while_ent) {
+            tap_code(KC_ENT);
 	}
+        tapped_while_ent = false;
+     }
+     return true;
+    case NEO_L1_SS:
+     if (record->event.pressed) {
+ 	register_code(NEO_L1_R);
+	is_ss_pressed = true;
+     } else {
+ 	unregister_code(NEO_L1_R);
+	is_ss_pressed = false;
+	if (!tapped_while_ss) {
+            tap_code(NEO_SS);
+	}
+        tapped_while_ss = false;
+     }
+     return true;
     }
-  }
-}
-
-const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
-{
-  // MACRODOWN only works in this function
-      switch(id) {
-        case 0:
-        if (record->event.pressed) {
-          register_code(KC_RSFT);
-        } else {
-          unregister_code(KC_RSFT);
-        }
-        break;
+    if (record->event.pressed && is_ent_pressed) {
+        tapped_while_ent = true;
     }
-    return MACRO_NONE;
+    if (record->event.pressed && is_ss_pressed) {
+        tapped_while_ss = true;
+    }
+    return true;
 };
 
+// const uint16_t PROGMEM fn_actions[] = {
+//   [1] = ACTION_FUNCTION_TAP(NEO_L1_SS),
+//   [2] = ACTION_FUNCTION_TAP(NEO_L2_ENT),
+//   [3] = ACTION_LAYER_TAP_KEY(_UP, KC_ENT)
+// };
+// void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
+// {
+//   switch (id) {
+//     case NEO_L1_SS:
+//     if (record->event.pressed) {
+// 	register_code(NEO_L1_R);
+//     } else {
+// 	unregister_code(NEO_L1_R);
+// 	if (record->tap.count != 0) {
+// 	    add_key(NEO_SS);
+// 	    send_keyboard_report();
+// 	    del_key(NEO_SS);
+// 	    send_keyboard_report();
+// 	}
+//     }
+//   break;
+//     case NEO_L2_ENT:
+//     if (record->event.pressed) {
+// 	register_code(NEO_L2_R);
+//     } else {
+// 	unregister_code(NEO_L2_R);
+// 	if (record->tap.count != 0) {
+// 	    add_key(KC_ENT);
+// 	    send_keyboard_report();
+// 	    del_key(KC_ENT);
+// 	    send_keyboard_report();
+// 	}
+//     }
+//   }
+// }
+// 
+// const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
+// {
+//   // MACRODOWN only works in this function
+//       switch(id) {
+//         case 0:
+//         if (record->event.pressed) {
+//           register_code(KC_RSFT);
+//         } else {
+//           unregister_code(KC_RSFT);
+//         }
+//         break;
+//     }
+//     return MACRO_NONE;
+// };
+// 
