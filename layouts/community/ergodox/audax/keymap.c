@@ -115,8 +115,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
      if (record->event.pressed) {
  	register_code(NEO_L2_R);
 	is_ent_pressed = true;
+	layer_on(_UP);
      } else {
  	unregister_code(NEO_L2_R);
+	layer_off(_UP);
 	is_ent_pressed = false;
 	if (!tapped_while_ent) {
             tap_code(KC_ENT);
@@ -137,6 +139,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         tapped_while_ss = false;
      }
      return true;
+     case KC_BSPC:
+     if (record->event.pressed) {
+         if (is_ent_pressed) {
+	    return false;
+	 }
+     } else {
+         if (is_ent_pressed) {
+            tap_code(KC_DEL);
+	    return false;
+	 }
+     }
     }
     if (record->event.pressed && is_ent_pressed) {
         tapped_while_ent = true;
@@ -147,54 +160,3 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 };
 
-// const uint16_t PROGMEM fn_actions[] = {
-//   [1] = ACTION_FUNCTION_TAP(NEO_L1_SS),
-//   [2] = ACTION_FUNCTION_TAP(NEO_L2_ENT),
-//   [3] = ACTION_LAYER_TAP_KEY(_UP, KC_ENT)
-// };
-// void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
-// {
-//   switch (id) {
-//     case NEO_L1_SS:
-//     if (record->event.pressed) {
-// 	register_code(NEO_L1_R);
-//     } else {
-// 	unregister_code(NEO_L1_R);
-// 	if (record->tap.count != 0) {
-// 	    add_key(NEO_SS);
-// 	    send_keyboard_report();
-// 	    del_key(NEO_SS);
-// 	    send_keyboard_report();
-// 	}
-//     }
-//   break;
-//     case NEO_L2_ENT:
-//     if (record->event.pressed) {
-// 	register_code(NEO_L2_R);
-//     } else {
-// 	unregister_code(NEO_L2_R);
-// 	if (record->tap.count != 0) {
-// 	    add_key(KC_ENT);
-// 	    send_keyboard_report();
-// 	    del_key(KC_ENT);
-// 	    send_keyboard_report();
-// 	}
-//     }
-//   }
-// }
-// 
-// const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
-// {
-//   // MACRODOWN only works in this function
-//       switch(id) {
-//         case 0:
-//         if (record->event.pressed) {
-//           register_code(KC_RSFT);
-//         } else {
-//           unregister_code(KC_RSFT);
-//         }
-//         break;
-//     }
-//     return MACRO_NONE;
-// };
-// 
